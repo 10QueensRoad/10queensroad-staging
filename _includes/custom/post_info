@@ -1,0 +1,9 @@
+<span>
+    {% if info_post != null%}
+    on {{ info_post.date | date_to_long_string }}{% if info_post.author != null %}, by {{ info_post.author}}
+    {% endif %}
+    {% if info_post.category != null %} | in {{info_post.category}} {% endif %}
+    {% endif %}
+</span>
+{% assign info_post = nil%}
+

@@ -1,0 +1,80 @@
+@main-dark: #AB274F;
+@main-light: #CFCFC4;
+@component-margin: 5px;
+@post-info-color: #0309AD;
+
+body {
+  padding-top: 50px;
+}
+
+.bt-component {
+    margin: @component-margin;
+}
+
+.post-info {
+    color: @post-info-color;    
+}
+
+.social {
+  list-style: none;
+  padding: 0;
+}
+
+.social li {
+  float: left;
+}
+
+.bt-header {
+  text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+  background-color: @main-dark;
+  border-color: #841B2D;
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+}
+
+.bt-header .navbar-brand {
+  color: #fff;
+}
+.navbar .nav li a {
+  color: @main-light
+}
+footer {
+  border-top: 5px solid @main-dark
+}
+
+.container > footer {
+  margin-top: 20px;
+  clear: both;
+}
+
+.zocial:hover {
+  color: @main-dark
+}
+
+a.post-title {
+  color: @main-dark
+}
+
+a.post-title:hover {
+  color: #414A4C;
+  text-decoration: none;
+}
+
+.bt-page-header {
+  color: @main-dark;
+  background-color: @main-light;
+  border: none;
+  padding: 20px 20px 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  clear: both;
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.075);
+}
+
+.post-pagination {
+  float: right;
+}
+
+.post-pagination>.pagination>.active>span:focus {
+  background-color: @main-dark;
+  border-color: @main-dark;
+}

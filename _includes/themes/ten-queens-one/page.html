@@ -1,0 +1,19 @@
+<div class="bt-page-header">
+	  <h1>{% if page.title %}
+									{{ page.title }}
+					   {% else %}
+									{{site.title}}
+					{% endif %}
+					{% if page.tagline %}
+									<small>{{ page.tagline }}</small>
+					   {% else %}
+									<small>{{site.tagline}}</small>
+					{% endif %}
+	  </h1>
+</div>
+
+<div class="row bt-component">
+  <div class="col-md-12">
+    {{ content }}
+  </div>
+</div>
