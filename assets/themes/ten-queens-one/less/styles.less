@@ -1,4 +1,5 @@
-@main-dark: #AB274F;
+@main-dark: #003153;
+@main-dark-companion: #120A8F;
 @main-light: #CFCFC4;
 @component-margin: 5px;
 @post-info-color: #0309AD;
@@ -27,7 +28,7 @@ body {
 .bt-header {
   text-shadow: 0 -1px 0 rgba(0,0,0,.15);
   background-color: @main-dark;
-  border-color: #841B2D;
+  border-color: @main-dark-companion;
   box-shadow: 0 1px 0 rgba(255,255,255,.1);
 }
 
@@ -48,6 +49,11 @@ footer {
 
 .zocial:hover {
   color: @main-dark
+}
+
+a:hover {
+  color: @main-dark;
+  text-decoration: none;
 }
 
 a.post-title {

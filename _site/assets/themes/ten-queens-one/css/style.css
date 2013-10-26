@@ -16,8 +16,8 @@ body {
 }
 .bt-header {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
-  background-color: #ab274f;
-  border-color: #841B2D;
+  background-color: #003153;
+  border-color: #120a8f;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 .bt-header .navbar-brand {
@@ -27,24 +27,28 @@ body {
   color: #cfcfc4;
 }
 footer {
-  border-top: 5px solid #ab274f;
+  border-top: 5px solid #003153;
 }
 .container > footer {
   margin-top: 20px;
   clear: both;
 }
 .zocial:hover {
-  color: #ab274f;
+  color: #003153;
+}
+a:hover {
+  color: #003153;
+  text-decoration: none;
 }
 a.post-title {
-  color: #ab274f;
+  color: #003153;
 }
 a.post-title:hover {
   color: #414A4C;
   text-decoration: none;
 }
 .bt-page-header {
-  color: #ab274f;
+  color: #003153;
   background-color: #cfcfc4;
   border: none;
   padding: 20px 20px 10px;
@@ -57,6 +61,6 @@ a.post-title:hover {
   float: right;
 }
 .post-pagination > .pagination > .active > span:focus {
-  background-color: #ab274f;
-  border-color: #ab274f;
+  background-color: #003153;
+  border-color: #003153;
 }
