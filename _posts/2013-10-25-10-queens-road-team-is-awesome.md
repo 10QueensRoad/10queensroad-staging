@@ -6,6 +6,7 @@ tags: [team, introduction, awesome]
 author: "Fredrick Watermelon"
 ---
 {% include JB/setup %}
+
 The 10 queens road blog is **awesome!**
 
 Here is why:
