@@ -1,9 +1,0 @@
-
-https://10queensroad.github.io/archive.html
-https://10queensroad.github.io/atom.xml
-https://10queensroad.github.io/categories.html
-https://10queensroad.github.io/index.html
-https://10queensroad.github.io/pages.html
-https://10queensroad.github.io/rss.xml
-https://10queensroad.github.io/sitemap.txt
-https://10queensroad.github.io/tags.html
