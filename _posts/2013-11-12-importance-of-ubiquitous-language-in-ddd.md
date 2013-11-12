@@ -9,7 +9,7 @@ author: "Anshuman Mukherjee"
 
  As a programmer, one of the biggest challange I face is naming my variables and methods. The university I attended did not think it was important to teach the students the importance of naming identifiers correctly. However I have come to realise that this single aspect often decides the quality of code that we write. 
 
-The Javabean specification requires using method names like get<propertyName>, set<propertyName> and is<propertyName>. This itself would not be a problem if the properties were named better. However, poorly chosen property names often make it difficult to understand what we are setting or getting. For instance the business might identify an Account having a primary user and a list of dependent users. Representing this using property names 'user' and 'users' break the mapping between code and business understanding. Badly named methods in a class further complicate this scenario. For instance an account accepting transfers should have a method 
+The Javabean specification requires using method names like get&lt;propertyName&gt;, set&lt;propertyName&gt; and is&lt;propertyName&gt;. This itself would not be a problem if the properties were named better. However, poorly chosen property names often make it difficult to understand what we are setting or getting. For instance the business might identify an Account having a primary user and a list of dependent users. Representing this using property names 'user' and 'users' break the mapping between code and business understanding. Badly named methods in a class further complicate this scenario. For instance an account accepting transfers should have a method 
 ```sh
 acceptTransfer(amount)
 ```
