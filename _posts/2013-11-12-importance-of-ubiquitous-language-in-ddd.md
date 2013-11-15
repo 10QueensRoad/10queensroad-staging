@@ -25,14 +25,14 @@ rather than
 
 I like the way method names are structured in certain languages like Objective-C. Instead of a single identifier, Objective-C allows breaking the method names into multiple identifiers. For instance 
 
-```java
-	void insertElement:element atIndex:index
+```objective-c
+	(void)insertElement:(id)element atIndex:(NSInteger)index;
 ```
 
 makes more sense than 
 
 ```java
-	void inserElementAtIndex(element, index)
+	void inserElementAtIndex(element, index);
 ```
 
 This problem would mainly arise if the developers and domain experts use different language to describe the business operations. For instance withdrawal and deposit for domain expert mapping to reduce and add for developers. Such differences lead to difference in understanding of business requirements among the team members and eventually leads to poor software.
