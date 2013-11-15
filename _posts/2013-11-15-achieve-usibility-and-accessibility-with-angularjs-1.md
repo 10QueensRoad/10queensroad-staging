@@ -12,6 +12,8 @@ author: "Peng Xiao"
 
 Australia government has endorsed [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog, we will show a creative way to implement the item [ARIA2: Identifying required fields with the aria-required property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
 
+<!--end excerpt-->
+
 The following is a typical input field(`input` is a [void element](http://dev.w3.org/html5/markup/syntax.html#void-elements). the closing "/" is optional.):
 {% highlight html %}
 <label for="user-name">User Name:</label>
