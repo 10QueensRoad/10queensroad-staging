@@ -8,105 +8,106 @@ author: "Peng Xiao"
 
 {% include JB/setup %}
 
-Guava is a Java library provided by Google, which contains a lot of good utility functions. In our deveopment team, one of the very useful functions we use in daily work is [`Lists.transform`](http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/collect/Lists.html) and [`Collections2.transform`](http://docs.guava-libraries.googlecode.com/git-history/release/javadoc/com/google/common/collect/Collections2.html).
+> ####_This blog is written with love._
 
-Recently I encountered an interesting bug while I was using the transform operation. To simplify the problem, let's say I have a class `UploadData` which represents some data uploaded by the end user. And the requirement is to allow user to specify an effective date to indicate since when the data will be effective.
+Australia government has endorsed [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog, we will show a creative way to implement the item [ARIA2: Identifying required fields with the aria-required property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
 
-<!--end excerpt-->
+The following is a typical input field(`input` is a [void element](http://dev.w3.org/html5/markup/syntax.html#void-elements). the closing "/" is optional.):
+{% highlight html %}
+<label for="user-name">User Name:</label>
+<input id="user-name" type="text"/>
+{% endhighlight %}
+And in the browser, it looks like this in a browser:
+>![text input with label](/assets/images/input-element-ui.png "Input element with label")
 
-```java
-	class UploadData {
-	
-	  public Data getData() { /* ... */ }
-	  public Date getEffectiveDate() { /* ... */ }
-	
-	  /* ... */
-	}
-```
+We would like to add asterisk to the label, if the input field is required:
+>![required input field with label](/assets/images/input-element-required-ui.png "Required input field with label")
 
-And in the web page there's a dropdown box which lists all the uploaded data. The label is the effective date of each record and they should be ordered by time, from the latest to the oldest. Besides, the one which is currently effective should be selected by default. For example, let's say there're three records of upload data, and here're their effective dates:
+The HTML element looks like:
+{% highlight html %}
+<label for="user-name">User Name:<abbr title="required" class="required">*</abbr></label>
+<input id="user-name" type="text"/>
+{% endhighlight %}
+There are many fields need to be updated, to make it simple, we are going to do it dynamically with [angularjs](angularjs.org).
 
-+ January 1, 2013
-+ March 8, 2013
-+ December 15, 2013
+## Implementation
 
-Today is October 6, 2013, so the UI should list them as below - 
+### Directive `asterisk`
 
-+ December 15, 2013
-+ March 8, 2013 (**selected** as it is currently effective)
-+ January 1, 2013
+Let's create a aterisk directive first.
 
-There is a data transformation class created for this case.
+//*HTML*
+{% highlight html %}
+<asterisk></asterisk>
+{% endhighlight %}
 
-```java
-	class UploadDataDto {
-	 
-	  private final boolean currentlyEffective;
-	  private Date effectiveDate;
-	
-	  public UploadDataDto(boolean isCurrentlyEffective, Date effectiveDate) {
-	    this.currentlyEffective = isCurrentlyEffective;
-	    this.effectiveDate = effectiveDate;
-	  }
-	
-	  public boolean isCurrentlyEffective() {
-	    return currentlyEffective;
-	  }
-	
-	  public Date effectiveDate() {
-	    return effectiveDate;
-	  }
-	}
-```
+//*JavaScript*
+{% highlight javascript %}
+// ua means usability and accessibility
+var uaModule = angular.module('ua', []);
 
-In MVC layer we created a method to get the `UploadData` from repository and transform them to `UploadDataDto` objects. And we use the Guava API to apply the transformation.
+uaModule.directive('asterisk', function(){
+  return {
+    restrict: 'E', // only apply to Element
+    template: '<abbr title="required" class="required"">*</abbr>',
+    transclude: 'true',
+    replace: 'true' // replace the current element
+  }
+});
+{% endhighlight %}
 
-```java
-	public List<UploadDataDto> listUploads() {
-	
-	  // get a list of uploads ordered by effective date descdently
-	  List<UploadData> uploads = uploadRepository.listOrderByEffectiveDateDesc();
-	
-	  final Date now = new Date();
-	  return Lists.transform(uploads,
-	               new Function<UploadData, UploadDataDto>() {
-	
-	      boolean foundCurrentlyEffective = false;
-	
-	      @Override
-	      public UploadDataDto apply(UploadData upload) {
-	        if (!foundCurrentlyEffective &&
-	            now.after(upload.getEffectiveDate())) {
-	          foundCurrentlyEffective = true;
-	          return new UploadDataDto(true, upload.getEffectiveDate());
-	        }
-	        return new UploadDataDto(false, upload.getEffectiveDate());
-	      }
-	    });
-	}
-```
+Make sure you have bootstrapped your html with:
 
-As you can see, we passed in an instance of anonymous `Function` to the `transform` function. This ananomous function takes a `UploadData` and converts into a `UploadDataDto` object. Besides, a boolean flag is used to bookmark whether we have found the currently effective data.
+{% highlight javascript %}
+angular.element(document).ready(function () {
+  angular.bootstrap(document, ['ua']);
+});
+{% endhighlight %}
 
-The transformation works as expected and we saw the expected options listed in the web page. So far so good?
+Now whenever you add an `asterisk` element in your DOM structure, you will see a "\*" on the page.
 
-After a few days, I tried to convert an existing Java unit test into Scala Specs2 test. Suprisingly I found that a few cases failed after the conversion. After more than 90 minutes debug with the help from my colleagues, I realized the problem is caused by the `List` returned by `Lists.transform` function:
+Please checkout this pluckr: http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview 
 
-1. The returned `List` is a wrapper of the original list.
-2. Any invocation on the returned list will invoke the passed in `Function`
+### Directive `require`
 
-Below is the code snapshoot of the `transform` function. As you can see in the [source code](https://code.google.com/p/guava-libraries/source/browse/guava/src/com/google/common/collect/Lists.java), both the `TransformingRandomAccessList` and `TransformingSequentialList` are wrappers of the original list. They keep the reference to the `Function` object, therefore they won't evaluate the result list until client calls to loop over or access element from the result list.
+`required` is [a new attribute introduced in HTML5](http://www.w3schools.com/html/html5_form_attributes.asp), and [is supported by all main stream browsers](http://docs.webplatform.org/wiki/html/attributes/required). Though there is a ['html5shiv.js'](https://code.google.com/p/html5shim/) to fix some issue on IE9, I have NOT verified it. Please leave comments, if it does not work on your IE9 with `html5shiv`.
 
-```java
-	public static <F, T> List<T> transform(
-	    List<F> fromList, Function<? super F, ? extends T> function) {
-	  return (fromList instanceof RandomAccess)
-	    ? new TransformingRandomAccessList<F, T>(fromList, function)
-	    : new TransformingSequentialList<F, T>(fromList, function);
-	}
-```
+What we want to achive is have angularjs add the required `span` when it finds a `required` attribute on the `input` element.
 
-That being said, the returned `List` is lazy, and not cached. In this scenario, the root cause of the bug is the boolean flag `foundCurrentlyEffective` in the `Function` instance, which introduced the side effect. If this list is only used one time, everything is fine. But as soon as it's looped second time, it won't flag the currently effective upload any more… Unfortunately in my Scala test, I used an implicit conversion to convert the `List` into a Scala `Seq` before any assertion on the elements of the `List` (`Seq`).
+First, add `required` attribute to `input` element. The code looks like:
+{% highlight html %}
+<label for="user-name">User Name:</label>
+<input id="user-name" type="text" required/>
+{% endhighlight %}
 
-The conculsion is that, try to provide a pure function (without any side effect) to the `Lists.transform` method. It would help to avoid this kind of subtle bugs.
+After the enhancement, it will become:
+{% highlight html %}
+<label for="user-name">User Name:
+	<abbr title="required" class="required">*</abbr>
+</label>
+<input id="user-name" type="text" required/>
+{% endhighlight %}
 
+{% highlight javascript %}
+uaModule.directive('required', ['$document', '$compile', function (document, compile) {
+  var linkFn, labelNode, labelElement, abbrElement;
+
+  linkFn = function (scope, element, attrs) {
+    // eliminate the dependency on jQuery
+    labelNode = document[0].body.querySelector("label[for='" + attrs['id'] + "']");
+    if (labelNode) {
+      labelElement = angular.element(labelNode);
+      // @ add asterisk to the label of a required input field
+      abbrElement = angular.element('<asterisk/>');
+      labelElement.append(compile(abbrElement)(scope));
+    }
+  };
+
+  return {
+    restrict: 'A',
+    link: linkFn
+  };
+}]);
+{% endhighlight %}	
+
+The final plnkr can be found [here](http://plnkr.co/edit/j7umgmvRg6VXUw7SC5XV?p=preview).
