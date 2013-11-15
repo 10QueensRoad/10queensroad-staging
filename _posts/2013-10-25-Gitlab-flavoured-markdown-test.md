@@ -2,7 +2,7 @@
 layout: post
 title: "Demo post to test Gitlab flavoured markdown"
 category: demo
-tags:
+tags: []
 author: "Andrew Hamilton"
 ---
 {% include JB/setup %}
