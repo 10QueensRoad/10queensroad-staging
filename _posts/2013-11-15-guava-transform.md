@@ -14,6 +14,7 @@ Recently I encountered an interesting bug while I was using the transform operat
 
 <!--end excerpt-->
 
+```java
 	class UploadData {
 	
 	  public Data getData() { /* ... */ }
@@ -21,6 +22,7 @@ Recently I encountered an interesting bug while I was using the transform operat
 	
 	  /* ... */
 	}
+```
 
 And in the web page there's a dropdown box which lists all the uploaded data. The label is the effective date of each record and they should be ordered by time, from the latest to the oldest. Besides, the one which is currently effective should be selected by default. For example, let's say there're three records of upload data, and here're their effective dates:
 
@@ -36,6 +38,7 @@ Today is October 6, 2013, so the UI should list them as below -
 
 There is a data transformation class created for this case.
 
+```java
 	class UploadDataDto {
 	 
 	  private final boolean currentlyEffective;
@@ -54,9 +57,11 @@ There is a data transformation class created for this case.
 	    return effectiveDate;
 	  }
 	}
-	
+```
+
 In MVC layer we created a method to get the `UploadData` from repository and transform them to `UploadDataDto` objects. And we use the Guava API to apply the transformation.
 
+```java
 	public List<UploadDataDto> listUploads() {
 	
 	  // get a list of uploads ordered by effective date descdently
@@ -79,6 +84,7 @@ In MVC layer we created a method to get the `UploadData` from repository and tra
 	      }
 	    });
 	}
+```
 
 As you can see, we passed in an instance of anonymous `Function` to the `transform` function. This ananomous function takes a `UploadData` and converts into a `UploadDataDto` object. Besides, a boolean flag is used to bookmark whether we have found the currently effective data.
 
@@ -91,12 +97,14 @@ After a few days, I tried to convert an existing Java unit test into Scala Specs
 
 Below is the code snapshoot of the `transform` function. As you can see in the [source code](https://code.google.com/p/guava-libraries/source/browse/guava/src/com/google/common/collect/Lists.java), both the `TransformingRandomAccessList` and `TransformingSequentialList` are wrappers of the original list. They keep the reference to the `Function` object, therefore they won't evaluate the result list until client calls to loop over or access element from the result list.
 
+```java
 	public static <F, T> List<T> transform(
 	    List<F> fromList, Function<? super F, ? extends T> function) {
 	  return (fromList instanceof RandomAccess)
 	    ? new TransformingRandomAccessList<F, T>(fromList, function)
 	    : new TransformingSequentialList<F, T>(fromList, function);
 	}
+```
 
 That being said, the returned `List` is lazy, and not cached. In this scenario, the root cause of the bug is the boolean flag `foundCurrentlyEffective` in the `Function` instance, which introduced the side effect. If this list is only used one time, everything is fine. But as soon as it's looped second time, it won't flag the currently effective upload any more… Unfortunately in my Scala test, I used an implicit conversion to convert the `List` into a Scala `Seq` before any assertion on the elements of the `List` (`Seq`).
 
