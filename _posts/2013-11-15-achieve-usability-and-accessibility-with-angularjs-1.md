@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Achieve Usibility and Accessibility with AngularJs(1)"
+title: "Achieve Usability and Accessibility with AngularJs(1)"
 category: javascript
 tags: [javascript, angularjs, usibility-accessibility]
 author: "Peng Xiao"
@@ -10,47 +10,47 @@ author: "Peng Xiao"
 
 > ####_This blog is written with love._
 
-Australia government has endorsed [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog, we will show a creative way to implement the item [ARIA2: Identifying required fields with the aria-required property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
+The Australian government has endorsed the [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog post, we will show a creative way to implement the item [ARIA2: Identifying required fields with the aria-required property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
 
 <!--end excerpt-->
 
-The following is a typical input field(`input` is a [void element](http://dev.w3.org/html5/markup/syntax.html#void-elements). the closing "/" is optional.):
+The following is a typical input field (note that `<input>` in HTML5 is a [void element](http://dev.w3.org/html5/markup/syntax.html#void-elements); the closing "/" is optional):
 {% highlight html %}
 <label for="user-name">User Name:</label>
 <input id="user-name" type="text"/>
 {% endhighlight %}
-And in the browser, it looks like this in a browser:
->![text input with label](/assets/images/input-element-ui.png "Input element with label")
+And in the browser, it looks like this:
+>![text input field with label](/assets/images/input-element-ui.png "Input element with label")
 
-We would like to add asterisk to the label, if the input field is required:
->![required input field with label](/assets/images/input-element-required-ui.png "Required input field with label")
+We would like to add an asterisk to the label, if the input field is required:
+>![required text input field with label](/assets/images/input-element-required-ui.png "Required input field with label")
 
-The HTML element looks like:
+The HTML for this element now looks like:
 {% highlight html %}
 <label for="user-name">User Name:<abbr title="required" class="required">*</abbr></label>
 <input id="user-name" type="text"/>
 {% endhighlight %}
-There are many fields need to be updated, to make it simple, we are going to do it dynamically with [angularjs](angularjs.org).
+Implementing this feature on hundreds of required fields can take a lot of time. To simplify the process, we are going to do it dynamically with [AngularJS](http://angularjs.org).
 
 ## Implementation
 
-### Directive `asterisk`
+### The `asterisk` Directive
 
-Let's create a aterisk directive first.
+Let's first create an asterisk directive.
 
-//*HTML*
+// *HTML*
 {% highlight html %}
 <asterisk></asterisk>
 {% endhighlight %}
 
-//*JavaScript*
+// *JavaScript*
 {% highlight javascript %}
-// ua means usability and accessibility
+// 'ua' stands for 'usability and accessibility'
 var uaModule = angular.module('ua', []);
 
 uaModule.directive('asterisk', function(){
   return {
-    restrict: 'E', // only apply to Element
+    restrict: 'E', // only apply to Elements
     template: '<abbr title="required" class="required"">*</abbr>',
     transclude: 'true',
     replace: 'true' // replace the current element
@@ -68,15 +68,15 @@ angular.element(document).ready(function () {
 
 Now whenever you add an `asterisk` element in your DOM structure, you will see a "\*" on the page.
 
-Please checkout this pluckr: http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview 
+Check out [this plnkr](http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview) for a live demo of the example above.
 
-### Directive `require`
+### The `require` Directive
 
-`required` is [a new attribute introduced in HTML5](http://www.w3schools.com/html/html5_form_attributes.asp), and [is supported by all main stream browsers](http://docs.webplatform.org/wiki/html/attributes/required). Though there is a ['html5shiv.js'](https://code.google.com/p/html5shim/) to fix some issue on IE9, I have NOT verified it. Please leave comments, if it does not work on your IE9 with `html5shiv`.
+`required` is [a new attribute introduced in HTML5](http://www.w3schools.com/html/html5_form_attributes.asp), and [is supported by all of the mainstream browsers](http://docs.webplatform.org/wiki/html/attributes/required). There is a Javascript workaround (['html5shiv.js'](https://code.google.com/p/html5shim/)) to fix some issues with the IE9 implementation, but I have not verified how effectively it works. Please leave a comment if you are having trouble getting the `required` attribute to work in IE9 with `html5shiv`.
 
-What we want to achive is have angularjs add the required `span` when it finds a `required` attribute on the `input` element.
+What we want to achieve is to have AngularJS add the required `span` when it finds a `required` attribute on an `input` element.
 
-First, add `required` attribute to `input` element. The code looks like:
+First, add a `required` attribute to an `input` element. The code looks like:
 {% highlight html %}
 <label for="user-name">User Name:</label>
 <input id="user-name" type="text" required/>
@@ -89,17 +89,17 @@ After the enhancement, it will become:
 </label>
 <input id="user-name" type="text" required/>
 {% endhighlight %}
-
+With the help of this directive:
 {% highlight javascript %}
 uaModule.directive('required', ['$document', '$compile', function (document, compile) {
   var linkFn, labelNode, labelElement, abbrElement;
 
-  linkFn = function (scope, element, attrs) {
+  linkFn = function (scope, element, attributes) {
     // eliminate the dependency on jQuery
-    labelNode = document[0].body.querySelector("label[for='" + attrs['id'] + "']");
+    labelNode = document[0].body.querySelector("label[for='" + attributes['id'] + "']");
     if (labelNode) {
       labelElement = angular.element(labelNode);
-      // @ add asterisk to the label of a required input field
+      // add an asterisk to the label of a required input field
       abbrElement = angular.element('<asterisk/>');
       labelElement.append(compile(abbrElement)(scope));
     }
