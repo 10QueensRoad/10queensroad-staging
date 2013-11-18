@@ -64,3 +64,12 @@ a.post-title:hover {
   background-color: #003153;
   border-color: #003153;
 }
+
+pre {
+  overflow-x: scroll;
+}
+
+pre > code {
+  white-space: pre;
+  word-wrap: normal;
+}
