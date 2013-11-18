@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Importance of Ubiquitous language in DDD"
-category: Domain Driven Development
+category: domain driven development
 tags: [ddd]
 author: "Anshuman Mukherjee"
 ---
