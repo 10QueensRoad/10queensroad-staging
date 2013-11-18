@@ -10,7 +10,7 @@ author: "Peng Xiao"
 
 > ####_This blog post is written with love._
 
-The Australian government has endorsed the [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog post, we will show a creative way to implement the item [ARIA2: Identifying required fields with the ‘aria-required’ property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
+The Australian government has endorsed the [Web Content Accessibility Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog post, we will show a creative way to implement item [ARIA2: Identifying required fields with the 'aria-required' property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
 
 <!--end excerpt-->
 
