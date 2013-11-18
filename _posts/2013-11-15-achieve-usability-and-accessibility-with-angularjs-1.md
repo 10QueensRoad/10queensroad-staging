@@ -20,10 +20,10 @@ The following is a typical input field (note that `<input>` in HTML5 is a [void 
 <input id="user-name" type="text"/>
 {% endhighlight %}
 And in the browser, it looks like this:
->![text input field with label](/assets/images/input-element-ui.png “Text input field with label")
+>![text input field with label](/assets/images/2013-11-15-achieve-usability-and-accessibility-with-angularjs-1/input-element-ui.png "Text input field with label")
 
 We would like to add an asterisk to the label, if the input field is required:
->![required input field with label](/assets/images/input-element-required-ui.png "Required input field with label")
+>![required input field with label](/assets/images/2013-11-15-achieve-usability-and-accessibility-with-angularjs-1/input-element-required-ui.png "Required input field with label")
 
 The HTML for this element now looks like:
 {% highlight html %}
