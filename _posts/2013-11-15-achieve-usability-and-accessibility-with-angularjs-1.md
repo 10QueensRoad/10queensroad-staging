@@ -8,9 +8,9 @@ author: "Peng Xiao"
 
 {% include JB/setup %}
 
-> ####_This blog is written with love._
+> ####_This blog post is written with love._
 
-The Australian government has endorsed the [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog post, we will show a creative way to implement the item [ARIA2: Identifying required fields with the aria-required property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
+The Australian government has endorsed the [Web Content Accessibiity Guidelines version 2.0 (WCAG 2.0)](http://www.w3.org/TR/WCAG20/) as [a mandatory requirement for all government websites](http://webguide.gov.au/accessibility-usability/accessibility/). In this blog post, we will show a creative way to implement the item [ARIA2: Identifying required fields with the ‘aria-required’ property](http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/ARIA2).
 
 <!--end excerpt-->
 
@@ -20,17 +20,17 @@ The following is a typical input field (note that `<input>` in HTML5 is a [void 
 <input id="user-name" type="text"/>
 {% endhighlight %}
 And in the browser, it looks like this:
->![text input field with label](/assets/images/input-element-ui.png "Input element with label")
+>![text input field with label](/assets/images/input-element-ui.png “Text input field with label")
 
 We would like to add an asterisk to the label, if the input field is required:
->![required text input field with label](/assets/images/input-element-required-ui.png "Required input field with label")
+>![required input field with label](/assets/images/input-element-required-ui.png "Required input field with label")
 
 The HTML for this element now looks like:
 {% highlight html %}
 <label for="user-name">User Name:<abbr title="required" class="required">*</abbr></label>
 <input id="user-name" type="text"/>
 {% endhighlight %}
-Implementing this feature on hundreds of required fields can take a lot of time. To simplify the process, we are going to do it dynamically with [AngularJS](http://angularjs.org).
+Implementing this feature on many required fields can take a lot of time. To simplify the process, we are going to do it dynamically with [AngularJS](http://angularjs.org).
 
 ## Implementation
 
