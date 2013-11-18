@@ -74,7 +74,7 @@ Check out [this plnkr](http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview) for 
 
 `required` is [a new attribute introduced in HTML5](http://www.w3schools.com/html/html5_form_attributes.asp), and [is supported by all of the mainstream browsers](http://docs.webplatform.org/wiki/html/attributes/required). There is a Javascript workaround (['html5shiv.js'](https://code.google.com/p/html5shim/)) to fix some issues with the IE9 implementation, but I have not verified how effectively it works. Please leave a comment if you are having trouble getting the `required` attribute to work in IE9 with `html5shiv`.
 
-What we want to achieve is to have AngularJS add the required `span` when it finds a `required` attribute on an `input` element.
+What we want to achieve is to have AngularJS add the `abbr` element to the label when it finds a `required` attribute on an `input` element.
 
 First, add a `required` attribute to an `input` element. The code looks like:
 {% highlight html %}
