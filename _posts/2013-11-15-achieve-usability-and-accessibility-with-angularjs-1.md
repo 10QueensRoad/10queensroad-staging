@@ -70,7 +70,7 @@ Now whenever you add an `asterisk` element in your DOM structure, you will see a
 
 Check out [this plnkr](http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview) for a live demo of the example above.
 
-### The `require` Directive
+### The `required` Directive
 
 `required` is [a new attribute introduced in HTML5](http://www.w3schools.com/html/html5_form_attributes.asp), and [is supported by all of the mainstream browsers](http://docs.webplatform.org/wiki/html/attributes/required). There is a Javascript workaround (['html5shiv.js'](https://code.google.com/p/html5shim/)) to fix some issues with the IE9 implementation, but I have not verified how effectively it works. Please leave a comment if you are having trouble getting the `required` attribute to work in IE9 with `html5shiv`.
 
