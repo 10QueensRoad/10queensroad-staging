@@ -9,6 +9,8 @@ author: "Andrew Hamilton"
 
 This is a demo of the **Markdown** features available through **Jekyll**
 
+This post is internal to the Staging Area and will not be posted to the main blog.
+
 Things like:
 
 1. Numbered lists
