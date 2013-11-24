@@ -12,7 +12,7 @@ I recently needed to install Oracle Database XE on my Debian-based GNU/Linux dev
 
 When I started writing this post I was going to write the instructions as if you were starting from scratch. Then I realised that you probably haven't made it here because you are about to install oracle-xe, but because you've tried and have been searching for help on one error message or the other. So I'm writing approximately the steps I followed (with the exclusion of quite a few dead ends), and hopefully this helps you out of your situation.
 
-> ### I strongly recommend that now that you've made it here, read the post through to the end and understand the process instead of just following what I've done. It will save you time in the end.
+> ## I strongly recommend that now that you've made it here, read the post through to the end and understand the process instead of just following what I've done. It will save you time in the end.
 
 I'm starting with a minimal installation, and with my user added to the sudo group.
 
