@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Under the hood of Guava Lists Transformation"
+title: "Lazy Evaluation with Guava Transformations"
 category: java
 tags: [java, guava, functional-programming]
 author: "Bin Chen"
