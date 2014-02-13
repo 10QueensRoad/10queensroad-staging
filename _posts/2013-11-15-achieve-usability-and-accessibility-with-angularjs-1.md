@@ -68,7 +68,7 @@ angular.element(document).ready(function () {
 
 Now whenever you add an `asterisk` element in your DOM structure, you will see a "\*" on the page.
 
-Check out [this plnkr](http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview) for a live demo of the example above.
+Look at [this plnkr](http://plnkr.co/edit/kIIBicQklGuZVDblkw0Z?p=preview) for a live demo of the example above.
 
 ### The `required` Directive
 
@@ -82,7 +82,7 @@ First, add a `required` attribute to an `input` element. The code looks like:
 <input id="user-name" type="text" required/>
 {% endhighlight %}
 
-After the enhancement, it will become:
+After the enhancement, it becomes:
 {% highlight html %}
 <label for="user-name">User Name:
 	<abbr title="required" class="required">*</abbr>
