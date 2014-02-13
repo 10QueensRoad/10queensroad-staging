@@ -6,11 +6,11 @@ tags: [ddd, java, builder, provider]
 author: "Andrew Hamilton"
 ---
 
-In this blog post, we will implement a flexible helper object that can:
+In this blog post we will implement a flexible helper object that can:
 
-  1. Keep track of which user groups we want to email
-  2. Query objects in the user domain to retrieve the users’ email addresses
-  3. Provide an email builder with the users’ email addresses using a standard interface
+  1. Keep track of which user groups we want to email.
+  2. Query objects in the user domain to retrieve the users’ email addresses.
+  3. Provide an email builder with the users’ email addresses using a standard interface.
 
 Our solution implements the [Provider interface model](http://en.wikipedia.org/wiki/Provider_model) to limit dependencies on the email builder logic, mixed with traits of the [Builder pattern](http://en.wikipedia.org/wiki/Builder_pattern) to sequentially keep track of the recipients that we intend to email.
 
@@ -22,7 +22,7 @@ Here is a class diagram of the solution we should end up with:
 
 ### The code
 
-Let’s start with our User object. Each user keeps track of its email address, its supervisor and its coworkers.
+Let’s start with our User object. Each user keeps track of their email address, their supervisor and their coworkers.
 
 ```java
 public class User {
@@ -70,9 +70,9 @@ public class EmailMessageBuilder {
 }
 ```
 
-The User and Email Message Builder have no knowledge of each other. As they are core objects to their respective domains (user management and email management), this is to be expected.
+The User and Email Message Builder have no knowledge of each other, and this should be expected because they are core objects to their respective domains (user management and email management).
 
-The Email Recipient Provider interface is pretty self-explanatory, but let’s have a look anyway:
+The Email Recipient Provider interface is self-explanatory, but we will look at it anyway:
 
 ```java
 public interface EmailRecipientProvider {
@@ -85,13 +85,11 @@ public interface EmailRecipientProvider {
 
 As an example, let’s consider three situations in which we want to send emails:
 
-
   1. A user has just been created. Email the user a welcome email.
-
   2. A user’s blog post has been published. Email the user and CC their co-workers so they can view it.
   3. It’s a user’s birthday! Email the user, and CC their co-workers and supervisor so that they can prepare a cake.
 
-Creating individual Email Recipient Provider implementations for each of these these situations is verbose and clunky. Instead, we can implement a builder that can keep track of the requirements, query a user and prepare all of the email addresses.
+Creating individual Email Recipient Provider implementations for each of these these situations is verbose and clunky. Instead we can implement a builder that can keep track of the requirements, query a user and prepare all of the email addresses.
 
 ```java
 public class UserEmailRecipientBuilder implements EmailRecipientProvider {
@@ -134,6 +132,6 @@ MimeMessage mimeMessage = new EmailMessageBuilder()
                         .andCcSupervisor())
                 .build(mimeSession);
 ```
-Easy, ah?
+Easy!
 
-(Oh. If you're wondering what I was doing in the `andCcCoworkers()` method above, check out [Java 8's upcoming support for Lambda functions](http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)!)
+(If you're wondering what I was doing in the `andCcCoworkers()` method above, look at [Java 8's upcoming support for Lambda functions](http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html)!)
